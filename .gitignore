@@ -2,6 +2,9 @@
 ## This default template includes entries for R, Python and visual studio
 
 personal/
+log_tensorboard/
+*.pth
+*.inter
 
 ##
 ## Add custom entries below here.
