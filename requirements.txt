@@ -8,3 +8,4 @@ torch==1.10.2
 tqdm==4.62.3
 typing_extensions==4.1.1
 recbole==1.1.1
+ray==2.2.0
