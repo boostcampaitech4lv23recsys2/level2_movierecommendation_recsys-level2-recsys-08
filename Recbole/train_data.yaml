@@ -1,0 +1,22 @@
+
+field_separator: "	"
+USER_ID_FIELD: user_id
+ITEM_ID_FIELD: item_id
+TIME_FIELD: timestamp
+
+load_col:
+    inter: [user_id, item_id, timestamp]
+    user: [user_id]
+    item: [item_id, year, writer, title, genre, director]
+
+train_neg_sample_args:
+    uniform: 1
+    
+eval_args:
+    split: {'RS': [4, 1, 1]}
+    group_by: user
+    order: RO
+    mode: full
+metrics: ['Recall', 'MRR', 'NDCG', 'Hit', 'Precision', 'MAP']
+topk: 10
+valid_metric: Recall@10
