@@ -5,6 +5,8 @@ personal/
 log_tensorboard/
 *.pth
 *.inter
+*.item
+*data.yaml
 
 ##
 ## Add custom entries below here.
