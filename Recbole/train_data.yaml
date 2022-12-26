@@ -13,7 +13,7 @@ train_neg_sample_args:
     uniform: 1
     
 eval_args:
-    split: {'RS': [4, 1, 1]}
+    split: {'RS': [9, 1, 1]}
     group_by: user
     order: RO
     mode: full
