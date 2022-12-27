@@ -173,6 +173,10 @@ def inference(model_name : str,topk : int)->None:
     sub = pd.DataFrame(result, columns=["user", "item"])
     sub.user = sub.user.map(uidx2user)
     sub.item = sub.item.map(iidx2item)
+
+    if not os.path.isdir('./submission'):
+        os.mkdir('./submission')
+
     sub.to_csv(
         f"./submission/{model_path[8:-4]}.csv", index=False # "./saved/" 와 ".pth" 제거
     )
