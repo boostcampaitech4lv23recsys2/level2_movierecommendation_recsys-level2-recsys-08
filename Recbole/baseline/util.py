@@ -92,6 +92,15 @@ def filter_trainset(sub:pd.DataFrame)->pd.DataFrame:
     return sub[sub.time.isna()][['user','item']]
 
 def filter_after_review_interaction(sub:pd.DataFrame) -> pd.DataFrame:
+    """마지막 리뷰날짜 이후에 개봉된 영화 Interaction 제외
+
+    Args:
+        sub (pd.DataFrame): submission dataframe
+
+    Returns:
+        pd.DataFrame: filtering된 submission dataframe
+    """
+    
     with open('./index/item2year.pickle','rb') as f:
         item2year = pickle.load(f)
     with open('./index/userid2lastyear.pickle','rb') as f:
