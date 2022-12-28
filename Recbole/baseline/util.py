@@ -78,7 +78,7 @@ def uniquify(path:str) -> str:
 
     return path
 
-def filter_trainset(sub:pd.DataFrame) -> pd.DataFrame:
+def filter_trainset(sub:pd.DataFrame)->pd.DataFrame:
     """train set과 겹치는 Interaction을 필터링합니다.
 
     Args:
@@ -89,7 +89,19 @@ def filter_trainset(sub:pd.DataFrame) -> pd.DataFrame:
     """
     train = pd.read_csv("/opt/ml/input/data/train/train_ratings.csv")
     sub = sub.merge(train,on=['user','item'],how='left')
-    return sub[sub.time.isna()]
+    return sub[sub.time.isna()][['user','item']]
+
+def filter_after_review_interaction(sub:pd.DataFrame) -> pd.DataFrame:
+    with open('./index/item2year.pickle','rb') as f:
+        item2year = pickle.load(f)
+    with open('./index/userid2lastyear.pickle','rb') as f:
+        userid2lastyear = pickle.load(f)
+
+    sub['lastyear']=sub.user.map(userid2lastyear)
+    sub['m_year'] = sub.item.map(item2year)
+
+    sub = sub[sub.lastyear >= sub.m_year]
+    return sub[['user','item']]
 
 def inference(model_name : str, topk : int, model_path=None)->None:
     """
@@ -180,17 +192,19 @@ def inference(model_name : str, topk : int, model_path=None)->None:
     with open('./index/uidx2user.pickle','rb') as f:
         uidx2user = pickle.load(f)
     with open('./index/iidx2item.pickle','rb') as f:
-        iidx2item = pickle.load(f)
-    with open('./index/item2year.pickle','rb') as f:
-        item2year = pickle.load(f)
-    with open('./index/userid2lastyear.pickle','rb') as f:
-        userid2lastyear = pickle.load(f)    
+        iidx2item = pickle.load(f)   
 
     # submission 생성
     sub = pd.DataFrame(result, columns=["user", "item"])
     sub.user = sub.user.map(uidx2user)
     sub.item = sub.item.map(iidx2item)
     sub = filter_trainset(sub)
+    sub = filter_after_review_interaction(sub)
+
+    # extract Top K 
+    users = sub.groupby('user').user.head(K).reset_index(drop=True)
+    items = sub.groupby('user').item.head(K).reset_index(drop=True)
+    sub = pd.concat([users,items],axis=1)
     
     print(f"submission length: {sub.shape[0]}")
 
