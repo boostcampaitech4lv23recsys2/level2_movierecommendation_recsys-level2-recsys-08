@@ -26,7 +26,7 @@ def parse_args():
 
     parser.add_argument("--config",default = "basic_config.yaml",type=str)
 
-    parser.add_argument("--top_k",default = 20,type=int)
+    parser.add_argument("--top_k",default = 10,type=int)
 
     #EASE
     parser.add_argument("--reg_weight", default=250.0, type=float)
