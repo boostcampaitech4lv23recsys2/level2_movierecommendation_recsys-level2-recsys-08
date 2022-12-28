@@ -78,6 +78,19 @@ def uniquify(path:str) -> str:
 
     return path
 
+def filter_trainset(sub:pd.DataFrame) -> pd.DataFrame:
+    """train set과 겹치는 Interaction을 필터링합니다.
+
+    Args:
+        sub (pd.DataFrame): 필터링 전 submission dataframe
+
+    Returns:
+        pd.DataFrame: 필터링 후 submission dataframe
+    """
+    train = pd.read_csv("/opt/ml/input/data/train/train_ratings.csv")
+    sub = sub.merge(train,on=['user','item'],how='left')
+    return sub[sub.time.isna()]
+
 def inference(model_name : str, topk : int, model_path=None)->None:
     """
     train.py에서 학습했던 모델로 inference를 하는 함수입니다.
@@ -177,6 +190,7 @@ def inference(model_name : str, topk : int, model_path=None)->None:
     sub = pd.DataFrame(result, columns=["user", "item"])
     sub.user = sub.user.map(uidx2user)
     sub.item = sub.item.map(iidx2item)
+    sub = filter_trainset(sub)
     
     print(f"submission length: {sub.shape[0]}")
 
