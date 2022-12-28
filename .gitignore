@@ -5,6 +5,9 @@ personal/
 log_tensorboard/
 *.pth
 *.inter
+*.item
+*data.yaml
+*.yaml
 
 ##
 ## Add custom entries below here.
@@ -475,3 +478,4 @@ __pycache__/
 # OpenCover UI analysis results
 OpenCover/
 junit/
+Recbole/dataset/train_data/train_data.item
