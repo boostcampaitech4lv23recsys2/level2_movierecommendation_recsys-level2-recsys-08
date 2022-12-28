@@ -224,6 +224,6 @@ def inference(model_name : str, topk : int, model_path=None)->None:
         submission, index=False # "./saved/" 와 ".pth" 제거
     )
     print(f"model path: {model_path}")
-    print(f"submission path: {submission}")
+    print(f"submission path: {os.path.relpath(submission)}")
     print('inference done!')
     return
