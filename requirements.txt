@@ -9,3 +9,6 @@ tqdm==4.62.3
 typing_extensions==4.1.1
 recbole==1.1.1
 ray==2.2.0
+wandb==0.13.7
+lightgbm==3.3.3
+xgboost==1.7.2
