@@ -1,5 +1,11 @@
 import argparse
 
+class ParseAction(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        print('%r %r %r' % (namespace, values, option_string))
+        values = list(map(int, values.split()))
+        setattr(namespace, self.dest, values)
+
 
 def parse_args():
     """
@@ -49,7 +55,7 @@ def parse_args():
     #MultiVAE, MultiDAE
     parser.add_argument("--latent_dimendion", default=128, type=int)
 
-    parser.add_argument("--mlp_hidden_size", default=[600],nargs = '+', type=int) # list 형태를 sweep에 적용을 못하겠네요..
+    parser.add_argument("--mlp_hidden_size", default=[600], type=list) # list 형태를 sweep에 적용을 못하겠네요..
 
     parser.add_argument("--dropout_prob", default=0.5, type=float)
     
