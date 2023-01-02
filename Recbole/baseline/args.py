@@ -22,13 +22,13 @@ def parse_args():
     """
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--epochs", default=10, type=int)
+    parser.add_argument("--epochs", default=1, type=int)
 
     parser.add_argument("--model_name", default="EASE", type=str)
 
     parser.add_argument("--dataset_name", default="train_data", type=str)
 
-    parser.add_argument("--inference", default=True, type=lambda s : s.lower() in ['true','1'])
+    parser.add_argument("--inference", default=False, type=lambda s : s.lower() in ['true','1'])
 
     parser.add_argument("--config",default = "basic_config.yaml",type=str)
 
@@ -48,7 +48,7 @@ def parse_args():
 
     parser.add_argument("--k", default=100, type=int)
 
-    parser.add_argument("--positive_only", default=True, type=bool)
+    # parser.add_argument("--positive_only", default=True, type=bool)
 
     parser.add_argument("--center_columns", default=False, type=bool)
 
@@ -65,7 +65,7 @@ def parse_args():
     parser.add_argument("--total_anneal_steps", default=200000, type=int)
 
     #CDAE
-    parser.add_argument("--loss_type", default="BCE", type=str)
+    # parser.add_argument("--loss_type", default="BCE", type=str)
 
     parser.add_argument("--hid_activation", default="relu", type=str)
 

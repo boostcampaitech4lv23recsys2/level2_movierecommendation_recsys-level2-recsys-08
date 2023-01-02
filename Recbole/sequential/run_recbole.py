@@ -67,45 +67,45 @@ def main(args):
     """
 
     # train load
-    train = pd.read_csv("/opt/ml/input/data/train/train_ratings.csv")
+    # train = pd.read_csv("/opt/ml/input/data/train/train_ratings.csv")
 
-    # item 부가 정보 load
-    data_path = '/opt/ml/input/data/train'
-    year_data = pd.read_csv(os.path.join(data_path, 'years.tsv'), sep='\t')
-    writer_data = pd.read_csv(os.path.join(data_path, 'writers.tsv'), sep='\t')
-    title_data = pd.read_csv(os.path.join(data_path, 'titles.tsv'), sep='\t')
-    genre_data = pd.read_csv(os.path.join(data_path, 'genres.tsv'), sep='\t')
-    director_data = pd.read_csv(os.path.join(data_path, 'directors.tsv'), sep='\t')
+    # # item 부가 정보 load
+    # data_path = '/opt/ml/input/data/train'
+    # year_data = pd.read_csv(os.path.join(data_path, 'years.tsv'), sep='\t')
+    # writer_data = pd.read_csv(os.path.join(data_path, 'writers.tsv'), sep='\t')
+    # title_data = pd.read_csv(os.path.join(data_path, 'titles.tsv'), sep='\t')
+    # genre_data = pd.read_csv(os.path.join(data_path, 'genres.tsv'), sep='\t')
+    # director_data = pd.read_csv(os.path.join(data_path, 'directors.tsv'), sep='\t')
 
-    # train과 부가 정보 merge
-    df_merge = pd.merge(train, year_data, on='item', how='left')
-    df_merge = pd.merge(df_merge, writer_data, on='item', how='left')
-    df_merge = pd.merge(df_merge, title_data, on='item', how='left')
-    df_merge = pd.merge(df_merge, genre_data, on='item', how='left')
-    df_merge = pd.merge(df_merge, director_data, on='item', how='left')
+    # # train과 부가 정보 merge
+    # df_merge = pd.merge(train, year_data, on='item', how='left')
+    # df_merge = pd.merge(df_merge, writer_data, on='item', how='left')
+    # df_merge = pd.merge(df_merge, title_data, on='item', how='left')
+    # df_merge = pd.merge(df_merge, genre_data, on='item', how='left')
+    # df_merge = pd.merge(df_merge, director_data, on='item', how='left')
 
-    item_data = df_merge[['item', 'year', 'writer', 'title', 'genre', 'director']].drop_duplicates(subset=['item']).reset_index(drop=True)
+    # item_data = df_merge[['item', 'year', 'writer', 'title', 'genre', 'director']].drop_duplicates(subset=['item']).reset_index(drop=True)
     
-    # indexing save
-    user2idx = {v:k for k,v in enumerate(sorted(set(train.user)))}
-    item2idx = {v:k for k,v in enumerate(sorted(set(train.item)))}
-    uidx2user = {k:v for k,v in enumerate(sorted(set(train.user)))}
-    iidx2item = {k:v for k,v in enumerate(sorted(set(train.item)))}
+    # # indexing save
+    # user2idx = {v:k for k,v in enumerate(sorted(set(train.user)))}
+    # item2idx = {v:k for k,v in enumerate(sorted(set(train.item)))}
+    # uidx2user = {k:v for k,v in enumerate(sorted(set(train.user)))}
+    # iidx2item = {k:v for k,v in enumerate(sorted(set(train.item)))}
 
-    # indexing
-    train.user = train.user.map(user2idx)
-    train.item = train.item.map(item2idx)
-    item_data.item = item_data.item.map(item2idx)
+    # # indexing
+    # train.user = train.user.map(user2idx)
+    # train.item = train.item.map(item2idx)
+    # item_data.item = item_data.item.map(item2idx)
     
-    # train, item_data 컬럼
-    train.columns=['user_id:token','item_id:token','timestamp:float']
-    item_data.columns=['item_id:token', 'year:token', 'writer:token', 'title:token_seq', 'genre:token', 'director:token']
+    # # train, item_data 컬럼
+    # train.columns=['user_id:token','item_id:token','timestamp:float']
+    # item_data.columns=['item_id:token', 'year:token', 'writer:token', 'title:token_seq', 'genre:token', 'director:token']
     
-    # to_csv
-    outpath = f"dataset/train_data"
-    os.makedirs(outpath, exist_ok=True)
-    train.to_csv(os.path.join(outpath,"train_data.inter"),sep='\t',index=False)
-    item_data.to_csv(os.path.join(outpath,"train_data.item"),sep='\t',index=False)
+    # # to_csv
+    # outpath = f"dataset/train_data"
+    # os.makedirs(outpath, exist_ok=True)
+    # train.to_csv(os.path.join(outpath,"train_data.inter"),sep='\t',index=False)
+    # item_data.to_csv(os.path.join(outpath,"train_data.item"),sep='\t',index=False)
     
     # run
     model_name = args.model_name
