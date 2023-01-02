@@ -13,7 +13,7 @@ from recbole.quick_start import run_recbole
 import wandb
 
 from feature_engineering import FE
-from util import inference, make_dataset, make_item_dataset, make_config
+from util import inference, make_dataset, make_config
 
 # 필수
 # python train.py --model_name [] --config []
@@ -37,45 +37,44 @@ def main(args):
 
         나머지는 hyper parameter 입니다. 
     """
-    none_neg_list = ["MultiVAE","MultiDAE","MacridVAE","RecVAE","NARM","STAMP",\
-            "TransRec","FOSSIL","SHAN","RepeatNet","HRM","NPE",]
-    
     # ✨ sequential model ✨
-    seq_list = ['FPMC', 'GRU4Rec', 'NARM', 'STAMP', 'Caser', 'NextItNet', 'TransRec', 'SASRec', 'BERT4Rec', 'SRGNN', 'GCSAN']
-    # seq_list 모델일 경우 config 파일은 🔥 "seq.yaml" 🔥 입니다!
-    seq_feature_list = ['GRU4RecF', 'SASRecF', 'FDSA'] 
-    # seq_feature_list 모델일 경우 config 파일은 🔥 "seq_sel.yaml" 🔥 입니다!
-    
-    # ✨ context-aware model ✨
-    con_list = ['LR', 'FM', 'NFM', 'DeepFM', 'xDeepFM', 'AFM', 'FNN', 'PNN', 'WideDeep', 'DIN', 'DCN', 'AutoInt']
-    # con_list 모델일 경우 config 파일은 🔥 "con.yaml" 🔥 입니다!
-    con_feature_list = ['FFM', 'FwFM'] 
-    # con_feature_list 모델일 경우 config 파일은 🔥 "con_sel.yaml" 🔥 입니다!
+    seq_list = ['FPMC', 'GRU4Rec', 'NARM', 'STAMP', 'Caser', 'NextItNet', 'TransRec', 'SASRec', 'BERT4Rec', 'SRGNN', 'GCSAN','GRU4RecF', 'SASRecF', 'FDSA']
     
     model_name = args.model_name
     infer = args.inference
     config_name = args.config
     top_k = args.top_k
     dataset_name = args.dataset_name
-    del args.__dict__['inference'];del args.__dict__['model_name'];del args.__dict__['config'];del args.__dict__['top_k'];del args.__dict__['dataset_name']
-
-    if not os.path.isdir(f'./dataset/{dataset_name}'):
+    
+    # dataset이 하나라도 없을 경우 생성
+    if (not os.path.isfile(f'./dataset/{dataset_name}/{dataset_name}.inter')) or\
+        (not os.path.isfile(f'./dataset/{dataset_name}/{dataset_name}.item')) or\
+        (not os.path.isfile(f'./dataset/{dataset_name}/{dataset_name}.user')):
         print("Make dataset...")
         make_dataset(dataset_name)
-    
-    if model_name in seq_feature_list or model_name in con_feature_list:
-        if not os.path.isdir(f'./dataset/{dataset_name}'):
-            if not os.path.isfile(f'./train_data.item'):
-                    print("Make item dataset...")
-                    make_item_dataset(dataset_name)
-                    
+
+    # config 파일이 없을 경우 생성                
     if not os.path.isfile(f'./{config_name}'):
         print("Make config...")
         make_config(config_name)
 
     parameter_dict = args.__dict__
-    if model_name in none_neg_list:
-        parameter_dict['neg_sampling'] = None
+   
+    # Default eval_args를 저장
+    parameter_dict['eval_args'] = {
+        'split': {'RS': [9, 1, 0]},
+        'group_by': 'user',
+        'order': 'RO',
+        'mode': 'full',}
+    
+    # Sequential 모델일 경우 eval_args와 loss_type을 변경
+    if model_name in seq_list:
+        parameter_dict['eval_args']['order'] = 'TO'
+        parameter_dict['loss_type'] = 'BPR'
+    
+    # inference가 필요한 모델일 경우 1:0:0 학습 변경
+    if infer:
+        parameter_dict['eval_args']['split'] = {'RS' : [1,0,0]}
     
     print(f"running {model_name}...")
     result = run_recbole(
@@ -90,7 +89,6 @@ def main(args):
     if infer:
         inference(model_name,top_k)
     
-
 if __name__ == "__main__":
     args = parse_args()
     main(args)

@@ -48,10 +48,6 @@ def parse_args():
 
     parser.add_argument("--k", default=100, type=int)
 
-    # parser.add_argument("--positive_only", default=True, type=bool)
-
-    parser.add_argument("--center_columns", default=False, type=bool)
-
     #MultiVAE, MultiDAE
     parser.add_argument("--latent_dimendion", default=128, type=int)
 
@@ -65,7 +61,6 @@ def parse_args():
     parser.add_argument("--total_anneal_steps", default=200000, type=int)
 
     #CDAE
-    # parser.add_argument("--loss_type", default="BCE", type=str)
 
     parser.add_argument("--hid_activation", default="relu", type=str)
 
@@ -83,6 +78,10 @@ def parse_args():
     parser.add_argument("--mf_embedding_size", default=64, type=int)
 
     parser.add_argument("--mlp_embedding_size", default=64, type=int)
+    
+    # SLIMElastic
+    parser.add_argument("--l1_ratio", default=0.02, type=float)
+    
 
     args = parser.parse_args()
 
