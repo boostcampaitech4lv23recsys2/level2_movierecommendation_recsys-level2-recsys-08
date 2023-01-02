@@ -79,6 +79,11 @@ def parse_args():
 
     parser.add_argument("--reg_weight_2", default=0.01, type=float)
 
+    # NeuMF
+    parser.add_argument("--mf_embedding_size", default=64, type=int)
+
+    parser.add_argument("--mlp_embedding_size", default=64, type=int)
+
     args = parser.parse_args()
 
     return args
