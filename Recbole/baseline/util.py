@@ -59,6 +59,46 @@ def make_dataset(dataset_name : str) -> None:
 
     return
 
+def make_item_dataset(dataset_name : str) -> None:
+    """
+        train_data.item 만드는 함수입니다.
+    """
+    train = pd.read_csv("/opt/ml/input/data/train/train_ratings.csv")
+
+    # item 부가 정보 load
+    data_path = '/opt/ml/input/data/train'
+    year_data = pd.read_csv(os.path.join(data_path, 'years.tsv'), sep='\t')
+    writer_data = pd.read_csv(os.path.join(data_path, 'writers.tsv'), sep='\t')
+    title_data = pd.read_csv(os.path.join(data_path, 'titles.tsv'), sep='\t')
+    genre_data = pd.read_csv(os.path.join(data_path, 'genres.tsv'), sep='\t')
+    director_data = pd.read_csv(os.path.join(data_path, 'directors.tsv'), sep='\t')
+
+    # train과 부가 정보 merge
+    df_merge = pd.merge(train, year_data, on='item', how='left')
+    df_merge = pd.merge(df_merge, writer_data, on='item', how='left')
+    df_merge = pd.merge(df_merge, title_data, on='item', how='left')
+    df_merge = pd.merge(df_merge, genre_data, on='item', how='left')
+    df_merge = pd.merge(df_merge, director_data, on='item', how='left')
+
+    item_data = df_merge[['item', 'year', 'writer', 'title', 'genre', 'director']].drop_duplicates(subset=['item']).reset_index(drop=True)
+    
+    # indexing save
+    user2idx = {v:k for k,v in enumerate(sorted(set(train.user)))}
+    item2idx = {v:k for k,v in enumerate(sorted(set(train.item)))}
+
+    # indexing
+    item_data.item = item_data.item.map(item2idx)
+    
+    # train, item_data 컬럼
+    item_data.columns=['item_id:token', 'year:token', 'writer:token', 'title:token_seq', 'genre:token', 'director:token']
+    
+    # to_csv
+    outpath = f"dataset/{dataset_name}"
+    os.makedirs(outpath, exist_ok=True)
+    item_data.to_csv(os.path.join(outpath,f"{dataset_name}.item"),sep='\t',index=False)
+
+    return
+
 def uniquify(path:str) -> str:
     """중복파일이 있는 경우 Numbering
 
