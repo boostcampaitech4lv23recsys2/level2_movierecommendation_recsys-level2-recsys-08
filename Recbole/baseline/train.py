@@ -33,7 +33,7 @@ def main(args):
         config_name(default - "basic_config.yaml") : config 정보가 담긴 yaml 파일 이름을 불러옵니다.
         🔥🔥🔥 주의 )) 모델이 여러 종류이기 때문에, 사용하는 모델에 맞춰서 config 파일 이름을 꼭 입력해주세요 ‼️
         
-        topk(default - 20) : inference를 할 경우에 submission에 유저마다 몇 개의 아이템을 추천할지 정할 수 있습니다.
+        topk(default - 10) : inference를 할 경우에 submission에 유저마다 몇 개의 아이템을 추천할지 정할 수 있습니다.
 
         나머지는 hyper parameter 입니다. 
     """
