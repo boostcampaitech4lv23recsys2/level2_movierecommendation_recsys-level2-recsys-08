@@ -166,9 +166,6 @@ def inference(model_name : str, topk : int, model_path=None)->None:
 
     # user id, predict item id 저장 변수
     pred_list = None
-    user_list = None
-
-    pred_list = None
     user_list = []
 
     # user id list
@@ -177,7 +174,7 @@ def inference(model_name : str, topk : int, model_path=None)->None:
     tbar = tqdm(all_user_list, desc=set_color(f"Inference", 'pink')) # 245, 128
 
     for data in tbar:
-        batch_pred_list = full_sort_topk(data, model, test_data, K+30, device=device)[1]
+        batch_pred_list = full_sort_topk(data, model, test_data, K+50, device=device)[1]
         batch_pred_list = batch_pred_list.clone().detach().cpu().numpy()
         if pred_list is None:
             pred_list = batch_pred_list
