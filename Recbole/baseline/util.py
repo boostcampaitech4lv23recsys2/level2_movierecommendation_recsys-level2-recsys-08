@@ -10,24 +10,31 @@ import os
 
 def make_config(config_name : str) -> None:
     yamldata="""
+    field_separator: "\t"
     USER_ID_FIELD: user_id
     ITEM_ID_FIELD: item_id
     TIME_FIELD: timestamp
-
+    
     load_col:
         inter: [user_id, item_id, timestamp]
+        user : [user_id]
+        item: [item_id, year, writer, title, genre, director]
 
+    train_neg_sample_args:
+        distribution : uniform
+        sample_num : 1
+
+    selected_features: [year, writer, title, genre, director]
+    
     show_progress : False
     device : torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    eval_args:
-        split: {'RS': [9, 1, 0]}
-        group_by: user
-        order: RO
-        mode: full
+    
     metrics: ['Recall', 'MRR', 'NDCG', 'Hit', 'Precision', 'MAP']
     topk: 10
     valid_metric: Recall@10
-
+    
+    stopping_step : 10
+    
     log_wandb : True
     wandb_project : Recbole
     """
@@ -37,31 +44,8 @@ def make_config(config_name : str) -> None:
     return
 
 def make_dataset(dataset_name : str) -> None:
-    # train load
-    train = pd.read_csv("/opt/ml/input/data/train/train_ratings.csv")
-
-    # indexing save
-    user2idx = {v:k for k,v in enumerate(sorted(set(train.user)))}
-    item2idx = {v:k for k,v in enumerate(sorted(set(train.item)))}
-    uidx2user = {k:v for k,v in enumerate(sorted(set(train.user)))}
-    iidx2item = {k:v for k,v in enumerate(sorted(set(train.item)))}
-
-    train.user = train.user.map(user2idx)
-    train.item = train.item.map(item2idx)
-
-    train.columns=['user_id:token','item_id:token','timestamp:float']
-
-    outpath = f"dataset/{dataset_name}"
-    os.makedirs(outpath, exist_ok=True)
-    # sub_train=train.groupby("user").sample(n=10, random_state=SEED)
-    # sub_train.shape
-    train.to_csv(os.path.join(outpath,f"{dataset_name}.inter"),sep='\t',index=False)
-
-    return
-
-def make_item_dataset(dataset_name : str) -> None:
     """
-        train_data.item 만드는 함수입니다.
+        train_data 만드는 함수입니다.
     """
     train = pd.read_csv("/opt/ml/input/data/train/train_ratings.csv")
 
@@ -79,7 +63,8 @@ def make_item_dataset(dataset_name : str) -> None:
     df_merge = pd.merge(df_merge, title_data, on='item', how='left')
     df_merge = pd.merge(df_merge, genre_data, on='item', how='left')
     df_merge = pd.merge(df_merge, director_data, on='item', how='left')
-
+    
+    user_data = df_merge[['user']].drop_duplicates(subset=['user']).reset_index(drop=True)
     item_data = df_merge[['item', 'year', 'writer', 'title', 'genre', 'director']].drop_duplicates(subset=['item']).reset_index(drop=True)
     
     # indexing save
@@ -87,14 +72,21 @@ def make_item_dataset(dataset_name : str) -> None:
     item2idx = {v:k for k,v in enumerate(sorted(set(train.item)))}
 
     # indexing
+    train.user = train.user.map(user2idx)
+    train.item = train.item.map(item2idx)
+    user_data.user = user_data.user.map(user2idx)
     item_data.item = item_data.item.map(item2idx)
     
     # train, item_data 컬럼
+    train.columns=['user_id:token','item_id:token','timestamp:float']
+    user_data.columns=['user_id:token']
     item_data.columns=['item_id:token', 'year:token', 'writer:token', 'title:token_seq', 'genre:token', 'director:token']
     
     # to_csv
     outpath = f"dataset/{dataset_name}"
     os.makedirs(outpath, exist_ok=True)
+    train.to_csv(os.path.join(outpath,f"{dataset_name}.inter"),sep='\t',index=False)
+    user_data.to_csv(os.path.join(outpath,f"{dataset_name}.user"),sep='\t',index=False)
     item_data.to_csv(os.path.join(outpath,f"{dataset_name}.item"),sep='\t',index=False)
 
     return
