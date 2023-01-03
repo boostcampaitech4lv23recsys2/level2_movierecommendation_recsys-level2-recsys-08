@@ -7,6 +7,9 @@ log_tensorboard/
 *.inter
 *.item
 *data.yaml
+*.tar.gz
+*.item
+*data.yaml
 *.yaml
 
 ##
