@@ -38,6 +38,7 @@ def make_config(config_name : str) -> None:
     log_wandb : True
     wandb_project : Recbole
     """
+    
     with open(f"{config_name}", "w") as f:
         f.write(yamldata)
 

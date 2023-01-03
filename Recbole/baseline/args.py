@@ -34,53 +34,62 @@ def parse_args():
 
     parser.add_argument("--top_k",default = 10,type=int)
 
-    #EASE
-    parser.add_argument("--reg_weight", default=250.0, type=float)
+#     #EASE
+#     parser.add_argument("--reg_weight", default=250.0, type=float)
 
-    #ADMMSLIM
-    parser.add_argument("--lambda1", default=3.0, type=float)
+#     #ADMMSLIM
+#     parser.add_argument("--lambda1", default=3.0, type=float)
 
-    parser.add_argument("--lambda2", default=200.0, type=float)
+#     parser.add_argument("--lambda2", default=200.0, type=float)
 
-    parser.add_argument("--alpha", default=0.5, type=float)
+#     parser.add_argument("--alpha", default=0.5, type=float)
 
-    parser.add_argument("--rho", default=4000.0, type=float)
+#     parser.add_argument("--rho", default=4000.0, type=float)
 
-    parser.add_argument("--k", default=100, type=int)
+#     parser.add_argument("--k", default=100, type=int)
 
-    #MultiVAE, MultiDAE
-    parser.add_argument("--latent_dimendion", default=128, type=int)
+#     #MultiVAE, MultiDAE
+#     parser.add_argument("--latent_dimendion", default=128, type=int)
 
-    parser.add_argument("--mlp_hidden_size", default=[600], type=list) # list 형태 sweep 적용
+#     parser.add_argument("--mlp_hidden_size", default=[600], type=list) # list 형태 sweep 적용
 
     parser.add_argument("--dropout_prob", default=0.5, type=float)
     
-    #MultiVAE
-    parser.add_argument("--anneal_cap", default=0.2, type=float)
+#     #MultiVAE
+#     parser.add_argument("--anneal_cap", default=0.2, type=float)
 
-    parser.add_argument("--total_anneal_steps", default=200000, type=int)
+#     parser.add_argument("--total_anneal_steps", default=200000, type=int)
 
-    #CDAE
+#     #CDAE
 
-    parser.add_argument("--hid_activation", default="relu", type=str)
+#     parser.add_argument("--hid_activation", default="relu", type=str)
 
-    parser.add_argument("--out_activation", default="sigmoid", type=str)
+#     parser.add_argument("--out_activation", default="sigmoid", type=str)
 
-    parser.add_argument("--corruption_ratio", default=0.5, type=float)
+#     parser.add_argument("--corruption_ratio", default=0.5, type=float)
 
-    parser.add_argument("--embedding_size", default=64, type=int)
+#     parser.add_argument("--embedding_size", default=64, type=int)
 
-    parser.add_argument("--reg_weight_1", default=0., type=float)
+#     parser.add_argument("--reg_weight_1", default=0., type=float)
 
-    parser.add_argument("--reg_weight_2", default=0.01, type=float)
+#     parser.add_argument("--reg_weight_2", default=0.01, type=float)
 
-    # NeuMF
-    parser.add_argument("--mf_embedding_size", default=64, type=int)
+#     # NeuMF
+#     parser.add_argument("--mf_embedding_size", default=64, type=int)
 
-    parser.add_argument("--mlp_embedding_size", default=64, type=int)
+#     parser.add_argument("--mlp_embedding_size", default=64, type=int)
     
-    # SLIMElastic
-    parser.add_argument("--l1_ratio", default=0.02, type=float)
+#     # SLIMElastic
+#     parser.add_argument("--l1_ratio", default=0.02, type=float)
+    
+    # RecVAE
+    parser.add_argument("--hidden_dimendion", default=600, type=int)
+    
+    parser.add_argument("--latent_dimendion", default=200, type=int)
+    
+    parser.add_argument("--beta", default=0.2, type=float)
+    
+    parser.add_argument("--gamma", default=0.005, type=float)
     
 
     args = parser.parse_args()

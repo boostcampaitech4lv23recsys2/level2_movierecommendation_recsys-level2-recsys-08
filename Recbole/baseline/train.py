@@ -83,6 +83,7 @@ def main(args):
         config_file_list = [config_name],
         config_dict = parameter_dict,
     )
+    
     print(result)
     wandb.run.finish()
 
