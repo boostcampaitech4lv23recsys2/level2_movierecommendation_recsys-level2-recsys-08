@@ -38,7 +38,8 @@ def main(args):
         나머지는 hyper parameter 입니다. 
     """
     # ✨ sequential model ✨
-    seq_list = ['FPMC', 'GRU4Rec', 'NARM', 'STAMP', 'Caser', 'NextItNet', 'TransRec', 'SASRec', 'BERT4Rec', 'SRGNN', 'GCSAN','GRU4RecF', 'SASRecF', 'FDSA']
+    seq_list = ['FPMC', 'GRU4Rec', 'NARM', 'STAMP', 'Caser', 'NextItNet', 'TransRec', 'SASRec',
+                 'BERT4Rec', 'SRGNN', 'GCSAN','GRU4RecF', 'SASRecF', 'FDSA', 'S3Rec']
     
     model_name = args.model_name
     infer = args.inference
@@ -61,16 +62,21 @@ def main(args):
     parameter_dict = args.__dict__
    
     # Default eval_args를 저장
-    parameter_dict['eval_args'] = {
-        'split': {'RS': [9, 1, 0]},
-        'group_by': 'user',
-        'order': 'RO',
-        'mode': 'full',}
+    if model_name not in seq_list:
+        parameter_dict['eval_args'] = {
+            'split': {'RS': [9, 1, 0]},
+            'group_by': 'user',
+            'order': 'RO',
+            'mode': 'full',}
     
     # Sequential 모델일 경우 eval_args와 loss_type을 변경
     if model_name in seq_list:
-        parameter_dict['eval_args']['order'] = 'TO'
-        parameter_dict['loss_type'] = 'BPR'
+        parameter_dict['eval_args'] = {
+            'split': {'RS': [9, 1, 0]},
+            'group_by': 'user',
+            'order': 'TO',
+            'mode': 'full',}
+    #     parameter_dict['loss_type'] = 'BPR'
     
     # inference가 필요한 모델일 경우 1:0:0 학습 변경
     if infer:
