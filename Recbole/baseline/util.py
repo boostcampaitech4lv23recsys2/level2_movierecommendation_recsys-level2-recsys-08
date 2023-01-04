@@ -167,8 +167,10 @@ def inference(model_name : str, topk : int, model_path=None)->None:
     checkpoint = torch.load(model_path)
     config = checkpoint['config']
     config['dataset'] = 'train_data'
-    config['eval_args']['split']['RS']=[999999,0,1]
-
+    if model_name=="S3Rec":
+        config['eval_args']['split']={'RS':[99999,0,1]}
+    else:
+        config['eval_args']['split']['RS']=[999999,0,1]
     print("create dataset start!")
     dataset = create_dataset(config)
     train_data, valid_data, test_data = data_preparation(config, dataset)
