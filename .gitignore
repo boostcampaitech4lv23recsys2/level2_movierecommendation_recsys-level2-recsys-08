@@ -9,7 +9,7 @@ log_tensorboard/
 *data.yaml
 *.yaml
 *.pkl
-!Model_config/*.yaml
+!Recbole/baseline/Model_config/*.yaml
 
 ##
 ## Add custom entries below here.
