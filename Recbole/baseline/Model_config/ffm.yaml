@@ -1,0 +1,28 @@
+field_separator: "\t"
+USER_ID_FIELD: user_id
+ITEM_ID_FIELD: item_id
+TIME_FIELD: timestamp
+
+load_col:
+    inter: [user_id, item_id, timestamp]
+    user: [user_id, director1, director2, director3]
+    item: [item_id, director_str]
+
+train_neg_sample_args:
+    uniform: 1
+        
+show_progress : False
+device : torch.device("cuda" if torch.cuda.is_available() else "cpu")
+eval_args:
+    split: {'RS': [9, 1, 0]}
+    group_by: user
+    order: RO
+    mode: full
+metrics: ['Recall', 'MRR', 'NDCG', 'Hit', 'Precision', 'MAP']
+topk: 10
+valid_metric: Recall@10
+
+stopping_step : 1
+
+log_wandb : True
+wandb_project : Recbole
