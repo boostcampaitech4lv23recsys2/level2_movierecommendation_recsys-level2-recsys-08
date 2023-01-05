@@ -8,6 +8,8 @@ log_tensorboard/
 *.item
 *data.yaml
 *.yaml
+*.pkl
+!Model_config/*.yaml
 
 ##
 ## Add custom entries below here.
