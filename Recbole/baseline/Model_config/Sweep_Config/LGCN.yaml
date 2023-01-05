@@ -1,0 +1,26 @@
+program : train.py
+entity : netsus
+project : Recbole
+
+method : bayes
+name : LGCN_Sweep
+
+metric:
+  name : valid/recall@10
+  goal : maxmize
+
+parameters :  
+  model_name:
+    value : "LightGCN"
+  config:
+    value : "basic_config.yaml"
+  inference : 
+    value : False
+  n_layers :
+    min: 1
+    max: 8
+  embedding_size:
+    min: 16
+    max: 256
+  
+  
