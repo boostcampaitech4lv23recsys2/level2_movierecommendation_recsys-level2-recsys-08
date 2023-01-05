@@ -104,6 +104,10 @@ def parse_args():
 
     parser.add_argument("--train_stage", default='pretrain', type=str)
 
+    # LightGCN
+
+    parser.add_argument("--n_layers", default=2, type=int)
+
     args = parser.parse_args()
 
     return args
