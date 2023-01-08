@@ -1,0 +1,32 @@
+program : train.py
+entity : netsus
+project : Recbole
+
+method : bayes
+name : DCN_Sweep
+
+metric:
+  name : valid/recall@10
+  goal : maxmize
+
+parameters :  
+  model_name:
+    value : "DCN"
+  inference : 
+    value : False
+  config:
+    value : "dcn.yaml"  
+  epochs :
+    values : [20]
+  mlp_hidden_size:
+    values: [
+     [64,64,64],
+     [128,128,128],
+     [256,256,256],
+     ]
+  embedding_size:
+    values: [8, 16, 32, 64, 128]
+  cross_layer_num:
+    values: [3, 6, 10, 14]
+  
+  

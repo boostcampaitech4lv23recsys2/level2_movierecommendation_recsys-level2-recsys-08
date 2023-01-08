@@ -1,0 +1,25 @@
+program : train.py
+entity : netsus
+project : Recbole
+
+method : bayes
+name : FFM_emb_20_64
+
+metric:
+  name : valid/recall@10
+  goal : maxmize
+
+parameters :  
+  model_name:
+    value : "FFM"
+  config:
+    value : "ffm.yaml"
+  inference : 
+    value : False
+  epochs :
+    values : [10]
+  embedding_size:
+    min: 20
+    max: 64
+  
+  

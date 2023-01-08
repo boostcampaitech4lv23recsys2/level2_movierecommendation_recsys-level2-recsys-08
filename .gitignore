@@ -2,6 +2,18 @@
 ## This default template includes entries for R, Python and visual studio
 
 personal/
+log_tensorboard/
+*.pth
+*.inter
+*.item
+*data.yaml
+*.tar.gz
+*.item
+*data.yaml
+*.yaml
+*.pkl
+!Recbole/baseline/Model_config/*
+!Recbole/baseline/Model_config/Sweep_Config/*
 
 ##
 ## Add custom entries below here.
@@ -472,3 +484,4 @@ __pycache__/
 # OpenCover UI analysis results
 OpenCover/
 junit/
+Recbole/dataset/train_data/train_data.item

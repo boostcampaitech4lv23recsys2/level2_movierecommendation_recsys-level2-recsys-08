@@ -1,0 +1,22 @@
+
+USER_ID_FIELD: user_id
+ITEM_ID_FIELD: item_id
+TIME_FIELD: timestamp
+
+load_col:
+    inter: [user_id, item_id, timestamp]
+
+show_progress : False
+
+device : torch.device("cuda" if torch.cuda.is_available() else "cpu")
+eval_args:
+    split: {'RS': [9, 0, 1]}
+    group_by: user
+    order: RO
+    mode: full
+metrics: ['Recall', 'MRR', 'NDCG', 'Hit', 'Precision', 'MAP']
+topk: 10
+valid_metric: Recall@10
+
+log_wandb : True
+wandb_project : Recbole
