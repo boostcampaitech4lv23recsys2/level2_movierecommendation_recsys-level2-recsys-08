@@ -113,7 +113,7 @@
 
 <br>
 
-## D. 최종 결과
+## 최종 결과
 <img width="719" alt="image" src="https://user-images.githubusercontent.com/98138782/220574696-eadbb953-9d26-4a48-8dfd-37eb03941d7b.png">
 
 <br>
