@@ -103,13 +103,13 @@
 
 # 🔔 프로젝트 수행 결과
 
-- [EDA](https://github.com/boostcampaitech4lv23recsys2/level2_movierecommendation_recsys-level2-recsys-08/tree/master/EDA)
+- [🦋 EDA](https://github.com/boostcampaitech4lv23recsys2/level2_movierecommendation_recsys-level2-recsys-08/tree/master/EDA)
 
-- [Model](https://github.com/boostcampaitech4lv23recsys2/level2_movierecommendation_recsys-level2-recsys-08/tree/master/model)
+- [❄️ Model](https://github.com/boostcampaitech4lv23recsys2/level2_movierecommendation_recsys-level2-recsys-08/tree/master/model)
 
-- [Baseline](https://github.com/boostcampaitech4lv23recsys2/level2_movierecommendation_recsys-level2-recsys-08/tree/master/Recbole)
+- [🌎 Baseline](https://github.com/boostcampaitech4lv23recsys2/level2_movierecommendation_recsys-level2-recsys-08/tree/master/Recbole)
 
-- [Ensemble](https://github.com/boostcampaitech4lv23recsys2/level2_movierecommendation_recsys-level2-recsys-08/tree/master/Ensemble)
+- [⭐️ Ensemble](https://github.com/boostcampaitech4lv23recsys2/level2_movierecommendation_recsys-level2-recsys-08/tree/master/Ensemble)
 
 <br>
 
