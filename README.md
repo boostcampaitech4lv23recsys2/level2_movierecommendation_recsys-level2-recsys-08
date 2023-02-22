@@ -125,6 +125,6 @@
 
 # 📔 프로젝트 결과물
 
-* [Wrap-Up Report](https://github.com/boostcampaitech4lv23recsys2/level3_productserving-level3-recsys-08/blob/master/Wrap_Up_Report.pdf)<br><br>
+* [Wrap-Up Report](https://github.com/boostcampaitech4lv23recsys2/level2_movierecommendation_recsys-level2-recsys-08/blob/master/Movie_Recommendation_Wrap_UP_%EB%A6%AC%ED%8F%AC%ED%8A%B8.pdf)<br><br>
 
 <br>
